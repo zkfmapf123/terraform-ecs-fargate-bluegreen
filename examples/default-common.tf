@@ -78,4 +78,5 @@ module "default-common" {
 
   // codeDeploy
   codedeploy_iam_arn = local.codedeploy_arn
+  codedeploy_config  = "CodeDeployDefault.ECSAllAtOnce"
 }

@@ -103,3 +103,4 @@ variable "ecs_desired_count" {}
 ### ECS CodeDeploy
 #######################################################################################
 variable "codedeploy_iam_arn" {}
+variable "codedeploy_config" {}

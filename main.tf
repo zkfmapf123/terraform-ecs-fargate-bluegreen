@@ -221,7 +221,7 @@ resource "aws_ecs_service" "service" {
 
   load_balancer {
     target_group_arn = aws_lb_listener.https.default_action[0].target_group_arn
-    container_name   = aws_lb_target_group.tgs["green"].port
+    container_name   = "${var.ecs_middle_name}-container"
     container_port   = aws_lb_target_group.tgs["green"].port
   }
 
@@ -247,10 +247,10 @@ resource "aws_codedeploy_app" "code_deploy" {
   name             = "${var.ecs_middle_name}-codedeploy"
 }
 
-resource "aws_codedeploy_deployment_group" "ecs_codedeploy_group" {
+resource "aws_codedeploy_deployment_group" "ecs_code_deploy_group" {
   app_name               = aws_codedeploy_app.code_deploy.name
   deployment_group_name  = "${var.ecs_middle_name}-deploy-group"
-  deployment_config_name = "${var.ecs_middle_name}-deploy-config"
+  deployment_config_name = var.codedeploy_config
   service_role_arn       = var.codedeploy_iam_arn
 
   blue_green_deployment_config {
