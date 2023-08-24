@@ -6,6 +6,10 @@ variable "env" {
 }
 
 variable "vpc_id" {}
+variable "region" {}
+variable "subnets" {
+  type = list(string)
+}
 
 #######################################################################################
 ### ALB
@@ -18,9 +22,6 @@ variable "alb_balancer_type" {
   default = "application"
 }
 variable "alb_security_ids" {
-  type = list(string)
-}
-variable "alb_subnets" {
   type = list(string)
 }
 
@@ -41,3 +42,64 @@ variable "target_groups" {
     }
   }
 }
+
+#######################################################################################
+### ECR
+#######################################################################################
+variable "ecr_name" {}
+variable "ecr_policy_json" {
+  default = {
+    rules = [{
+      rulePriority = 1
+      description  = "keep last 10 images"
+      action = {
+        type = "expire"
+      }
+      selection = {
+        tagStatus   = "any"
+        countType   = "imageCountMoreThan"
+        countNumber = 20
+      }
+    }]
+  }
+}
+
+#######################################################################################
+### ECS Cluster
+#######################################################################################
+variable "ecs_middle_name" {}
+variable "ecs_provider_weights" {
+  default = {
+    "fargate"      = 1
+    "fargate_spot" = 3
+  }
+}
+
+
+#######################################################################################
+### ECS Task
+#######################################################################################
+variable "ecs_task" {
+  type = map(string)
+
+  default = {
+    hard_cpu           = "512"
+    hard_memory        = "1024"
+    execution_role_arn = ""
+    task_role_arn      = ""
+  }
+}
+
+#######################################################################################
+### ECS Service
+#######################################################################################
+variable "ecs_desired_count" {}
+
+#######################################################################################
+### ECS AutoScaling
+#######################################################################################
+
+#######################################################################################
+### ECS CodeDeploy
+#######################################################################################
+variable "codedeploy_iam_arn" {}
