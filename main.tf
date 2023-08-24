@@ -65,6 +65,16 @@ resource "aws_lb_target_group" "tgs" {
   target_type = "ip" // ECS 경우 TargetType이 ip
   vpc_id      = var.vpc_id
 
+  health_check {
+    healthy_threshold   = each.value.health.healthy_threshold
+    interval            = each.value.health.interval
+    protocol            = each.value.health.protocol
+    matcher             = each.value.health.matcher
+    timeout             = each.value.health.timeout
+    path                = each.value.health.path
+    unhealthy_threshold = each.value.health.unhealthy_threshold
+  }
+
   tags = {
     Name     = "${each.value.name}"
     Resource = "tg"

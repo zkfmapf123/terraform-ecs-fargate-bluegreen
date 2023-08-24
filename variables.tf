@@ -34,14 +34,37 @@ variable "target_groups" {
   default = {
     "green" : {
       "name" : "example-green-tg",
-      "port" : 3000
+      "port" : 3000,
+      "health" : {
+        enabled             = true
+        interval            = 30
+        path                = "/health"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200"
+      }
     },
     "blue" : {
       "name" : "example-blue-tg",
-      "port" : 3001
+      "port" : 3001,
+      "health" : {
+        enabled             = true
+        interval            = 30
+        path                = "/health"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200"
+      }
     }
   }
 }
+
 
 #######################################################################################
 ### ECR

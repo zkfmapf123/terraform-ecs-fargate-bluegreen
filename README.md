@@ -94,3 +94,18 @@
 
     - aws_codedeploy_app
     - aws_codedeploy_deployment_group
+
+- Todo
+  - [x] Terraform ALB
+  - [x] Terraform ECR
+  - [x] Terraform ECS
+  - [x] Terraform CodeDeploy
+  - [ ] Terraform Secret Manager
+  - [ ] Terraform AutoScaling
+  - [ ] Jenkins 없이 실제 배포 가능하게 테스트 해보기
+  - [ ] Scaling Test 하기
+  - [ ] 배포 속도 체크해서 빠르게 해보기.. (Rolling이랑 진짜 다른가?)
+  - [ ] Example 만들기
+    - [ ] Default ECS Fargate
+    - [ ] ECS Fargate use AutoScaling
+  - [ ] Module 배포
