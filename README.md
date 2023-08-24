@@ -68,23 +68,23 @@
 
 > ALB
 
-    - alb_lb
-    - alb_lb_listener
-    - alb_lb_target_group
+    - [O] alb_lb
+    - [O] alb_lb_listener
+    - [O] alb_lb_target_group
 
 > ECR
 
-    - aws_ecr_repository
-    - aws_ecr_lifecycle_policy
+    - [O] aws_ecr_repository
+    - [O] aws_ecr_lifecycle_policy
 
 > ECS
 
-    - aws_ecs_cluster
-    - aws_ecs_cluster_capacity_providers
-    - aws_ecs_task_definition
-    - aws_ecs_service
-    - aws_appautoscaling_target
-    - aws_appautoscaling_policy
+    - [O] aws_ecs_cluster
+    - [O] aws_ecs_cluster_capacity_providers
+    - [O] aws_ecs_task_definition
+    - [O] aws_ecs_service
+    - [O] aws_appautoscaling_target
+    - [O] aws_appautoscaling_policy
 
 > Secret-Manager
 
@@ -92,5 +92,5 @@
 
 > CodeDeploy
 
-    - aws_codedeploy_app
-    - aws_codedeploy_deployment_group
+    - [O] aws_codedeploy_app
+    - [O] aws_codedeploy_deployment_group
