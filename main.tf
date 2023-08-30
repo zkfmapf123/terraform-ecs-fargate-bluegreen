@@ -344,14 +344,6 @@ resource "aws_codedeploy_deployment_group" "ecs_code_deploy_group" {
   }
 }
 
-output "ecs" {
-  value = {
-    cluster_name = aws_ecs_cluster.cluster.name
-    service_name = aws_ecs_service.service.name
-    ecs_sg       = aws_security_group.ecs_sg.id
-  }
-}
-
 # #######################################################################################
 # ### Secret manager
 # #######################################################################################
