@@ -347,11 +347,16 @@ resource "aws_codedeploy_deployment_group" "ecs_code_deploy_group" {
 # #######################################################################################
 # ### Secret manager
 # #######################################################################################
+resource "random_string" "random_secret_name" {
+  length = 4
+  special = true
+}
+
 resource "aws_secretsmanager_secret" "secret_manager" {
-  name = "${var.ecs_middle_name}-${var.env}-env"
+  name = "${var.ecs_middle_name}-${var.env}-${random_string.random_secret_name.result}-env"
 
   tags = {
-    Name     = "${var.ecs_middle_name}-secret_manager"
+    Name     = "${var.ecs_middle_name}-${random_string.random_secret_name.result}-secret_manager"
     Env      = "${var.env}"
     Resource = "secret-manager"
   }

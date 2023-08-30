@@ -116,3 +116,7 @@ module "ecs-fargate-bluegreen" {
   codedeploy_role_arn    = local.codedeploy_arn
   codedeploy_config_name = "CodeDeployDefault.ECSAllAtOnce"
 }
+
+output "v" {
+  value = module.ecs-fargate-bluegreen.ecs
+}
