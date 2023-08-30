@@ -177,10 +177,11 @@ resource "aws_ecs_task_definition" "task_definition" {
           "awslogs-stream-prefix" = "ecs"           # 로그 스트림의 접두사
         }
       },
-      environment = [
+      environment = [],
+      secrets = [
         {
           "name" : "PORT",
-          "value" : tostring(var.alb_target_groups.green.port)
+          "ValueFrom" : "${aws_secretsmanager_secret.secret_manager.arn}:PORT::"
         }
       ]
     }
@@ -235,7 +236,7 @@ resource "aws_ecs_service" "service" {
   cluster                = aws_ecs_cluster.cluster.arn
   task_definition        = aws_ecs_task_definition.task_definition.arn
   desired_count          = var.ecs_desired_count
-  enable_execute_command = true
+  enable_execute_command = true // docker exec 허용
 
   network_configuration {
     assign_public_ip = true
@@ -251,7 +252,7 @@ resource "aws_ecs_service" "service" {
 
   // http
   dynamic "load_balancer" {
-    for_each = var.alb_to_listener_properties.http.is_create == var.alb_to_listener_properties.http.is_target ? [1] : []
+    for_each = var.alb_to_listener_properties.http.is_create && var.alb_to_listener_properties.http.is_target ? [1] : []
 
     content {
       target_group_arn = aws_lb_listener.http[0].default_action[0].target_group_arn
@@ -262,7 +263,7 @@ resource "aws_ecs_service" "service" {
 
   // https
   dynamic "load_balancer" {
-    for_each = var.alb_to_listener_properties.https.is_create == var.alb_to_listener_properties.https.is_target ? [1] : []
+    for_each = var.alb_to_listener_properties.https.is_create && var.alb_to_listener_properties.https.is_target ? [1] : []
 
     content {
       target_group_arn = aws_lb_listener.https[0].default_action[0].target_group_arn
@@ -350,3 +351,28 @@ output "ecs" {
     ecs_sg       = aws_security_group.ecs_sg.id
   }
 }
+
+# #######################################################################################
+# ### Secret manager
+# #######################################################################################
+resource "aws_secretsmanager_secret" "secret_manager" {
+  name = "${var.ecs_middle_name}-${var.env}-env"
+
+  tags = {
+    Name     = "${var.ecs_middle_name}-secret_manager"
+    Env      = "${var.env}"
+    Resource = "secret-manager"
+  }
+}
+
+resource "aws_secretsmanager_secret_version" "secret_version" {
+  secret_id = aws_secretsmanager_secret.secret_manager.id
+  secret_string = jsonencode({
+    "PORT" : "${var.alb_target_groups.green.port}"
+  })
+
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
+}
+

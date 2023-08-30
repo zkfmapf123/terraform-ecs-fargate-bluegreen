@@ -27,7 +27,6 @@
     logs:CreateLogStream
     logs:PutLogEvents
 
-
     // ecr
     ecr:GetAuthorizationToken
     ecr:BatchCheckLayerAvailability
@@ -41,6 +40,10 @@
     ssmmessages:OpenControlChannel
     ssmmessages:OpenDataChannel
 
+    // secret-manager
+    "ssm:GetParameters",
+    "secretsmanager:GetSecretValue",
+    "kms:Decrypt"
   ```
 
 - ecs-deploy-bluegreen-role
@@ -63,6 +66,18 @@
     codedeploy:PutLifecycleEventHookExecutionStatus
     iam:PassRole
   ```
+
+## Docker Exec
+
+```sh
+aws ecs execute-command
+  --region <region>
+  --cluster <cluster>
+  --task <task-id>
+  --container <container-id>
+  --command "/bin/sh"
+  --interactive
+```
 
 ## Make Terraform Resources
 
@@ -88,7 +103,7 @@
 
 > Secret-Manager
 
-    - aws_secretsmanager_secret
+    - [O] aws_secretsmanager_secret
 
 > CodeDeploy
 

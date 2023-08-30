@@ -2,7 +2,6 @@
 provider "aws" {
   region = "ap-northeast-2"
 }
-
 ##################################################################
 
 locals {
@@ -14,8 +13,8 @@ locals {
   codedeploy_arn      = "arn:aws:iam::021206237994:role/mpx-ecs-bluegreen-role"
 }
 
-module "default-common" {
-  source = "../"
+module "ecs-fargate-bluegreen" {
+  source = "../../"
 
   // common
   env     = "example-env"
