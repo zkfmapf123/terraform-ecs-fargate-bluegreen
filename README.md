@@ -109,3 +109,11 @@ aws ecs execute-command
 
     - [O] aws_codedeploy_app
     - [O] aws_codedeploy_deployment_group
+
+## Benchmark use Apache Benchmark
+
+- <a href="https://httpd.apache.org/docs/2.4/programs/ab.html"> apache benchmark </a>
+
+```
+  ab -n 50000 -c 100 [DNS_NAME]
+```

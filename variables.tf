@@ -145,6 +145,7 @@ variable "ecr_policy_json" {
 variable "ecs_middle_name" {
   type        = string
   description = "ECS에 사용될 전체적인 이름"
+
 }
 variable "ecs_provider_weights" {
   type = object({
@@ -156,6 +157,12 @@ variable "ecs_provider_weights" {
     "fargate"      = 1
     "fargate_spot" = 3
   }
+}
+
+variable "is_ecs_container_insight" {
+  type        = bool
+  description = "container insight"
+  default     = false
 }
 
 

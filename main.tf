@@ -124,6 +124,15 @@ resource "aws_ecr_lifecycle_policy" "ecr_repo_policy" {
 # #######################################################################################
 resource "aws_ecs_cluster" "cluster" {
   name = "${var.ecs_middle_name}-cluster"
+
+  dynamic "setting" {
+    for_each = var.is_ecs_container_insight ? [1] : []
+
+    content {
+      name  = "containerInsights"
+      value = "enabled"
+    }
+  }
 }
 
 resource "aws_ecs_cluster_capacity_providers" "cluster_provider" {
@@ -349,7 +358,11 @@ resource "aws_codedeploy_deployment_group" "ecs_code_deploy_group" {
 # #######################################################################################
 resource "random_string" "random_secret_name" {
   length = 4
-  special = true
+
+  upper   = true
+  lower   = true
+  special = false
+  number  = false
 }
 
 resource "aws_secretsmanager_secret" "secret_manager" {
